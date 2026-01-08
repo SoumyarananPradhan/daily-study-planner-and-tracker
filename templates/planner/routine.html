@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Study Planner</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <a href="{% url 'export_excel' %}" class="btn btn-success mb-3">
+    Export to Excel
+</a>
+
+</head>
+<body class="bg-light">
+
+<div class="container py-4">
+
+    <h2 class="text-center mb-4">Daily Study Planner</h2>
+
+    <!-- Add Study Session -->
+    <div class="card shadow-sm mb-4">
+        <div class="card-body">
+            <h5 class="card-title mb-3">Add Study Session</h5>
+
+            <form method="POST" class="row g-3">
+                {% csrf_token %}
+
+                <div class="col-md-2">
+                    <label class="form-label">Start</label>
+                    <input type="time" name="start_time" class="form-control" required>
+                </div>
+
+                <div class="col-md-2">
+                    <label class="form-label">End</label>
+                    <input type="time" name="end_time" class="form-control" required>
+                </div>
+
+                <div class="col-md-3">
+                    <label class="form-label">Subject</label>
+                    <select name="subject" class="form-select">
+                        <option>Python</option>
+                        <option>Django</option>
+                        <option>REST API</option>
+                        <option>MySQL</option>
+                        <option>MongoDB</option>
+                        <option>JavaScript</option>
+                        <option>NumPy</option>
+                        <option>Pandas</option>
+                        <option>Matplotlib</option>
+                        <option>React</option>
+                        <option>HTML</option>
+                        <option>CSS</option>
+                        <option>Bootstrap</option>
+                    </select>
+                </div>
+
+                <div class="col-md-3">
+                    <label class="form-label">Planned Topic</label>
+                    <input type="text" name="planned_topic" class="form-control" placeholder="Eg: Django Models" required>
+                </div>
+
+                <div class="col-md-2 d-flex align-items-end">
+                    <button class="btn btn-primary w-100">Add</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Study Sessions List -->
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <h5 class="card-title mb-3">Today's Schedule</h5>
+
+            <table class="table table-bordered align-middle">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Time</th>
+                        <th>Subject</th>
+                        <th>Planned Topic</th>
+                        <th>Topic Covered</th>
+                        <th>Done</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for s in sessions %}
+                    <tr class="{% if s.completed %}table-success{% endif %}">
+                        <td>{{ s.start_time }} - {{ s.end_time }}</td>
+                        <td>{{ s.subject }}</td>
+                        <td>{{ s.planned_topic }}</td>
+
+                        <td>
+                            <form method="POST" action="/complete/{{ s.id }}/">
+                                {% csrf_token %}
+                                <input type="text" name="covered_topic" class="form-control"
+                                       value="{{ s.covered_topic }}"
+                                       placeholder="What you studied">
+                        </td>
+
+                        <td class="text-center">
+                                <input type="checkbox" class="form-check-input"
+                                       onchange="this.form.submit()"
+                                       {% if s.completed %}checked{% endif %}>
+                            </form>
+                        </td>
+                    </tr>
+                {% empty %}
+                    <tr>
+                        <td colspan="5" class="text-center text-muted">No sessions added yet</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>
