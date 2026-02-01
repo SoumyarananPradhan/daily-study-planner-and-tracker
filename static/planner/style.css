@@ -1,0 +1,429 @@
+/* ============================================
+   Study Planner - Glassmorphism UI (2.0)
+   ============================================ */
+
+/* === ROOT VARIABLES & THEME CONFIG === */
+:root {
+    /* Modern Mesh Gradient Palette */
+    --primary-hue: 245;
+    --primary-color: hsl(var(--primary-hue), 75%, 65%);
+    --primary-dark: hsl(var(--primary-hue), 75%, 55%);
+    --primary-glow: hsla(var(--primary-hue), 75%, 65%, 0.4);
+    
+    --accent-hue: 340;
+    --accent-color: hsl(var(--accent-hue), 85%, 65%);
+    --accent-glow: hsla(var(--accent-hue), 85%, 65%, 0.4);
+
+    --success-color: #00b894;
+    --success-glow: rgba(0, 184, 148, 0.4);
+    
+    --bg-mesh: radial-gradient(at 0% 0%, hsla(253,16%,7%,1) 0, transparent 50%), 
+               radial-gradient(at 50% 0%, hsla(225,39%,30%,1) 0, transparent 50%), 
+               radial-gradient(at 100% 0%, hsla(339,49%,30%,1) 0, transparent 50%);
+    
+    /* Gradients */
+    --primary-gradient: linear-gradient(135deg, var(--primary-color) 0%, #a78bfa 100%);
+    --glass-gradient: linear-gradient(145deg, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.6) 100%);
+    
+    /* Typography */
+    --font-main: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    --text-primary: #1e293b;
+    --text-secondary: #64748b;
+    
+    /* Spacing & Borders */
+    --border-radius-lg: 20px;
+    --border-radius-xl: 30px;
+    --glass-border: 1px solid rgba(255, 255, 255, 0.5);
+    
+    /* Shadows */
+    --shadow-soft: 0 10px 40px -10px rgba(0,0,0,0.08);
+    --shadow-hover: 0 20px 40px -5px rgba(0,0,0,0.15);
+    --shadow-glow: 0 0 20px var(--primary-glow);
+    
+    /* Transitions */
+    --ease-elastic: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* === RESET & BASE === */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    font-family: var(--font-main);
+    background-color: #f3f4f6; /* Fallback */
+    background-image: 
+        radial-gradient(at 40% 20%, hsla(var(--primary-hue),100%,74%,0.1) 0px, transparent 50%),
+        radial-gradient(at 80% 0%, hsla(var(--accent-hue),100%,56%,0.1) 0px, transparent 50%),
+        radial-gradient(at 0% 50%, hsla(var(--primary-hue),100%,93%,0.1) 0px, transparent 50%);
+    background-attachment: fixed;
+    color: var(--text-primary);
+    line-height: 1.6;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+/* Scrollbar refinement */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--primary-color); }
+
+/* === LAYOUT === */
+.container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+    animation: fadeIn 0.8s var(--ease-smooth);
+}
+
+/* === TYPOGRAPHY === */
+h2 {
+    font-weight: 800;
+    /* Fluid typography: scales between 2rem and 3rem based on viewport */
+    font-size: clamp(2rem, 5vw, 3rem); 
+    background: var(--primary-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 2rem;
+    letter-spacing: -1px;
+    position: relative;
+    display: inline-block;
+}
+
+h2::after {
+    content: '';
+    display: block;
+    width: 40%;
+    height: 6px;
+    background: var(--accent-color);
+    border-radius: 10px;
+    margin-top: 5px;
+    animation: slideLine 1s var(--ease-elastic);
+}
+
+/* === GLASSMORPHISM CARDS === */
+.card, .login-card, .weekly-table {
+    background: rgba(255, 255, 255, 0.75);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: var(--glass-border);
+    border-radius: var(--border-radius-lg);
+    box-shadow: var(--shadow-soft);
+    padding: 2rem;
+    margin-bottom: 2rem;
+    transition: transform 0.3s var(--ease-smooth), box-shadow 0.3s var(--ease-smooth);
+    overflow: hidden;
+    position: relative;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-hover), var(--shadow-glow);
+    background: rgba(255, 255, 255, 0.85);
+    border-color: white;
+}
+
+.card-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--primary-dark);
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.card-title i, .card-title svg {
+    color: var(--accent-color);
+    filter: drop-shadow(0 2px 4px rgba(244, 114, 182, 0.3));
+}
+
+/* === LOGIN PAGE STYLING === */
+.login-container {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem;
+    background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
+    position: relative;
+    overflow: hidden;
+}
+
+/* Floating Orbs Background for Login */
+.login-container::before, .login-container::after {
+    content: '';
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(60px);
+    z-index: 0;
+    animation: floatOrb 10s infinite alternate;
+}
+
+.login-container::before {
+    width: 300px;
+    height: 300px;
+    background: var(--primary-color);
+    top: -50px;
+    left: -50px;
+    opacity: 0.4;
+}
+
+.login-container::after {
+    width: 250px;
+    height: 250px;
+    background: var(--accent-color);
+    bottom: -50px;
+    right: -50px;
+    opacity: 0.3;
+    animation-delay: -5s;
+}
+
+.login-card {
+    width: 100%;
+    max-width: 420px;
+    padding: 3rem 2.5rem;
+    z-index: 1;
+    border-radius: var(--border-radius-xl);
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
+}
+
+/* === MODERN INPUTS === */
+.form-label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 0.5rem;
+    display: block;
+}
+
+.form-control, .form-select {
+    width: 100%;
+    padding: 0.9rem 1.2rem;
+    border: 2px solid #e2e8f0;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.5);
+    font-size: 1rem;
+    transition: all 0.2s ease;
+    color: var(--text-primary);
+}
+
+.form-control:focus, .form-select:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    background: white;
+    box-shadow: 0 0 0 4px var(--primary-glow);
+    transform: scale(1.01);
+}
+
+/* === INTERACTIVE BUTTONS === */
+.btn {
+    display: inline-block;
+    padding: 0.9rem 2rem;
+    border-radius: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    letter-spacing: 1px;
+    cursor: pointer;
+    border: none;
+    transition: all 0.3s var(--ease-elastic);
+    position: relative;
+    overflow: hidden;
+    text-decoration: none;
+    text-align: center;
+}
+
+.btn-primary {
+    background: var(--primary-gradient);
+    color: white;
+    box-shadow: 0 4px 15px var(--primary-glow);
+}
+
+.btn-primary:hover {
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 8px 25px var(--primary-glow);
+}
+
+.btn-success {
+    background: linear-gradient(135deg, #00b894 0%, #00cec9 100%);
+    color: white;
+    box-shadow: 0 4px 15px var(--success-glow);
+}
+
+.btn-success:hover {
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 8px 25px var(--success-glow);
+}
+
+.btn:active { transform: scale(0.95); }
+
+/* === RESPONSIVE TABLES (The "Card View" Transformation) === */
+.table-responsive {
+    overflow-x: auto;
+    border-radius: var(--border-radius-lg);
+}
+
+.table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+.table thead th {
+    background: rgba(255,255,255,0.9);
+    color: var(--text-secondary);
+    font-weight: 700;
+    padding: 1.2rem;
+    text-align: left;
+    border-bottom: 2px solid #e2e8f0;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    letter-spacing: 1px;
+}
+
+.table tbody tr {
+    transition: background 0.2s;
+}
+
+.table tbody tr:hover {
+    background: rgba(255,255,255,0.6);
+}
+
+.table tbody td {
+    padding: 1.2rem;
+    border-bottom: 1px solid #f1f5f9;
+    color: var(--text-primary);
+    vertical-align: middle;
+}
+
+/* === CHECKBOX STYLING === */
+.form-check-input {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 24px;
+    height: 24px;
+    border: 2px solid #cbd5e1;
+    border-radius: 8px;
+    cursor: pointer;
+    position: relative;
+    transition: all 0.2s var(--ease-elastic);
+    background: white;
+}
+
+.form-check-input:checked {
+    background-color: var(--success-color);
+    border-color: var(--success-color);
+    transform: scale(1.1);
+}
+
+.form-check-input:checked::after {
+    content: '✓';
+    position: absolute;
+    color: white;
+    font-size: 16px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-weight: bold;
+}
+
+/* === ANIMATIONS === */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideLine {
+    from { width: 0; }
+    to { width: 40%; }
+}
+
+@keyframes floatOrb {
+    0% { transform: translate(0, 0); }
+    100% { transform: translate(20px, 40px); }
+}
+
+/* ==========================================================================
+   MOBILE RESPONSIVENESS (The Magic Part)
+   On screens smaller than 768px, tables transform into cards
+   ========================================================================== */
+@media screen and (max-width: 768px) {
+    
+    .container { padding: 1rem; }
+    
+    .card { padding: 1.5rem; }
+
+    /* Force table to not behave like a table */
+    .table, .table thead, .table tbody, .table th, .table td, .table tr { 
+        display: block; 
+    }
+    
+    /* Hide table headers (but keep for accessibility) */
+    .table thead tr { 
+        position: absolute;
+        top: -9999px;
+        left: -9999px;
+    }
+    
+    .table tbody tr { 
+        background: rgba(255,255,255,0.5);
+        border-radius: 12px;
+        margin-bottom: 1rem;
+        border: 1px solid #e2e8f0;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        padding: 1rem;
+    }
+    
+    .table td { 
+        /* Behave like a "row" */
+        border: none;
+        position: relative;
+        padding-left: 50%; 
+        padding-top: 0.5rem;
+        padding-bottom: 0.5rem;
+        text-align: right;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    
+    /* Add labels using CSS content for "Card View" */
+    .table td::before { 
+        content: attr(data-label); 
+        position: absolute;
+        left: 1rem;
+        width: 45%; 
+        padding-right: 10px; 
+        white-space: nowrap;
+        font-weight: 700;
+        text-align: left;
+        color: var(--text-secondary);
+        font-size: 0.85rem;
+        text-transform: uppercase;
+    }
+
+    /* Adjust inputs inside mobile table */
+    .table td .form-control {
+        width: 100%;
+        margin-top: 0.5rem;
+    }
+
+    .table td {
+        display: block; /* Stack content vertically inside cell */
+        text-align: left;
+        padding-left: 0;
+    }
+
+    .table td::before {
+        position: relative;
+        left: 0;
+        display: block;
+        margin-bottom: 5px;
+    }
+    
+    .btn { width: 100%; margin-top: 10px; }
+}

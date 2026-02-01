@@ -21,3 +21,44 @@ A Django-based web application to plan, track, and manage daily study routines w
 - Authentication: Django Auth
 
 ## Project Structure
+study_planner/
+├── planner/
+│ ├── models.py
+│ ├── views.py
+│ ├── api_views.py
+│ ├── serializers.py
+│ ├── urls.py
+│ └── api_urls.py
+├── templates/
+│ ├── planner/
+│ └── registration/
+├── static/
+├── db.sqlite3
+└── manage.py
+
+## Setup Instructions
+
+### 1. Clone Repository
+```bash
+git clone https://github.com/SoumyarananPradhan/daily-study-planner-and-tracker.git
+cd daily-study-planner-and-tracker
+
+python -m venv venv
+source venv/bin/activate   # Windows: venv\Scripts\activate
+
+pip install -r requirements.txt
+
+python manage.py migrate
+python manage.py runserver
+```
+
+python manage.py createsuperuser
+
+python manage.py runserver
+
+
+### 👉 Commit it:
+```bash
+git add README.md
+git commit -m "add professional README"
+git push
