@@ -1,64 +1,23 @@
-# daily-study-planner
-# daily-study-planner-and-tracker
-# Daily Study Planner and Tracker
+# 📅 Daily Study Planner & Tracker
 
-A Django-based web application to plan, track, and manage daily study routines with user authentication, progress tracking, and Excel export support.
+A data-driven productivity tool built to help users master their schedules. This application provides a structured environment for planning study sessions and visualizing learning progress over time.
 
-## Features
-- User authentication (login/logout)
-- Daily study timetable
-- Track planned vs covered topics
-- Mark sessions as completed
-- Export study history to Excel
-- REST API support (DRF)
-- Bootstrap-based responsive UI
+## 🚀 Features
+* **Daily Goal Setting:** Create and manage subject-specific tasks with priority levels.
+* **Time Tracking:** Log the duration of study sessions to monitor productivity.
+* **Visual Analytics:** Dynamic charts showing study trends and subject-wise time distribution.
+* **Persistence:** Secure data storage to track long-term academic or professional growth.
+* **Mobile-Friendly:** Responsive design for tracking on the go.
 
-## Tech Stack
-- Backend: Django, Django REST Framework
-- Frontend: HTML, Bootstrap
-- Database: SQLite
-- Export: OpenPyXL
-- Authentication: Django Auth
+## 🛠️ Tech Stack
+* **Backend:** Python (Django/Flask)
+* **Frontend:** HTML5, CSS3, JavaScript
+* **Data Visualization:** Chart.js
+* **Database:** SQLite / PostgreSQL
 
-## Project Structure
-study_planner/
-├── planner/
-│ ├── models.py
-│ ├── views.py
-│ ├── api_views.py
-│ ├── serializers.py
-│ ├── urls.py
-│ └── api_urls.py
-├── templates/
-│ ├── planner/
-│ └── registration/
-├── static/
-├── db.sqlite3
-└── manage.py
+## 📦 Installation
 
-## Setup Instructions
-
-### 1. Clone Repository
-```bash
-git clone https://github.com/SoumyarananPradhan/daily-study-planner-and-tracker.git
-cd daily-study-planner-and-tracker
-
-python -m venv venv
-source venv/bin/activate   # Windows: venv\Scripts\activate
-
-pip install -r requirements.txt
-
-python manage.py migrate
-python manage.py runserver
-```
-
-python manage.py createsuperuser
-
-python manage.py runserver
-
-
-### 👉 Commit it:
-```bash
-git add README.md
-git commit -m "add professional README"
-git push
+1. **Clone the Repository:**
+   ```bash
+   git clone [https://github.com/SoumyarananPradhan/daily-study-planner-and-tracker.git](https://github.com/SoumyarananPradhan/daily-study-planner-and-tracker.git)
+   cd daily-study-planner-and-tracker
